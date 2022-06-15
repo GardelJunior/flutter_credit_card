@@ -37,6 +37,7 @@ class CreditCardForm extends StatefulWidget {
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
     this.numberValidationMessage = 'Please input a valid number',
+    this.holderNameValidationMessage = 'Please input a valid card holder name',
     this.isHolderNameVisible = true,
     this.isCardNumberVisible = true,
     this.isExpiryDateVisible = true,
@@ -49,6 +50,7 @@ class CreditCardForm extends StatefulWidget {
   final String cvvValidationMessage;
   final String dateValidationMessage;
   final String numberValidationMessage;
+  final String holderNameValidationMessage;
   final void Function(CreditCardModel) onCreditCardModelChange;
   final Color themeColor;
   final Color textColor;
@@ -315,6 +317,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
                   autofillHints: const <String>[AutofillHints.creditCardName],
+                  validator: (String? value) {
+                    if (value!.isEmpty || value.length < 3) {
+                      return widget.holderNameValidationMessage;
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                     onCreditCardModelChange(creditCardModel);
